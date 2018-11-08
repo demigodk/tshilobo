@@ -1,0 +1,197 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Tshilobo is a social media network, for churches" />
+    <meta name="keywords" content="Social Network, Social Media, Make Friends, Newsfeed, Profile Page" />
+    <meta name="robots" content="index, follow" />
+    <title>Tshilobo - @ViewData["Title"]</title>
+
+    <!-- Stylesheets
+    ================================================= -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/ionicons.min.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" type="image/png" href="images/fav.png" />
+
+    <style type="text/css">
+        input:invalid {
+            border: 2px dashed red;
+        }
+    </style>
+</head>
+<body>
+
+</body>
+</html>
+
+<!-- Header
+================================================= -->
+<header id="header-inverse">
+    <nav class="navbar navbar-default navbar-fixed-top menu">
+        <div class="container">
+
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index-register.html"><img src="~/images/logo.png" alt="logo" /></a>
+            </div>
+            <div class="nav navbar-nav navbar-right">               
+                <a class="btn btn-primary" asp-page="./Login">Login</a>               
+            </div>
+
+        </div><!-- /.container -->
+    </nav>
+</header>
+<!--Header End-->
+<!-- Registration Page Contents
+================================================= -->
+<div id="lp-register">
+    <div class="container wrapper">
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="intro-texts">
+                    <h1 class="text-white">Make Cool Friends !!!</h1>
+                    <p>Friend Finder is a social network template that can be used to connect people. The template offers Landing pages, News Feed, Image/Video Feed, Chat Box, Timeline and lot more. <br /> <br />Why are you waiting for? Buy it now.</p>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+            </div>
+            <div class="col-sm-6 col-sm-offset-1">
+                <div class="reg-form-container">                    
+                    <!--Registration Form Contents-->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="register">
+                            <h3>Register Now !!!</h3>
+                            <p class="text-muted">Be cool and join today. Meet millions</p>
+                            @if (Model.ShowMessage)
+                            {
+                                <div class="alert alert-danger alert-dismissible text-center" role="alert">
+                                    @Model.StatusMessage
+                                </div>
+                            }
+                            <form asp-route-returnurl="@Model.ReturnUrl" name="registration_form" id='registration_form' class="form-inline">
+                                <div class="row">
+                                    <div class="form-group col-xs-6">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-xs-6">
+                                        <label asp-for="Input.FirstName" class="sr-only"></label>
+                                        <input asp-for="Input.FirstName" class="form-control input-group-lg" placeholder="First Name" required type="text"                                               
+                                               oninvalid="this.setCustomValidity('Enter First Name')"
+                                               oninput="this.setCustomValidity('')" />
+                                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-xs-6">
+                                        <label asp-for="Input.LastName" class="sr-only"></label>
+                                        <input asp-for="Input.LastName" class="form-control input-group-lg" placeholder="Last Name" required type="text"
+                                               oninvalid="this.setCustomValidity('Enter Last Name')"
+                                               oninput="this.setCustomValidity('')" />
+                                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-xs-12">
+                                        <label asp-for="Input.Email" class="sr-only"></label>
+                                        <input asp-for="Input.Email" class="form-control input-group-lg" placeholder="Email" required type="email"
+                                               oninvalid="this.setCustomValidity('Enter Email')"
+                                               oninput="this.setCustomValidity('')" />
+                                    </div>
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                                <div class="row">
+                                    <p class="birth"><strong>Date of Birth</strong></p>
+                                    <div class="form-group col-sm-3 col-xs-6">
+                                        <label asp-for="Input.Day" class="sr-only"></label>
+                                        <select asp-for="Input.Day" asp-items="@Model.Days" class="form-control" required
+                                                oninvalid="this.setCustomValidity('Select Day')"
+                                                oninput="this.setCustomValidity('')"></select>
+                                        <span asp-validation-for="Input.Day" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-sm-3 col-xs-6">
+                                        <label asp-for="Input.Month" class="sr-only"></label>
+                                        <select asp-for="Input.Month" asp-items="@Model.Months" class="form-control" required
+                                                oninvalid="this.setCustomValidity('Select Month')"
+                                                oninput="this.setCustomValidity('')"></select>                                        
+                                    </div>
+                                    <div class="form-group col-sm-6 col-xs-12">
+                                        <label asp-for="Input.Year" class="sr-only"></label>
+                                        <select asp-for="Input.Year" asp-items="@Model.Years" class="form-control" required
+                                                oninvalid="this.setCustomValidity('Select Year')"
+                                                oninput="this.setCustomValidity('')"></select>
+                                        <span asp-validation-for="Input.Year" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-xs-12">
+                                        <label asp-for="Input.GenderId" class="sr-only"></label>
+                                        <select asp-for="Input.GenderId" asp-items="@Model.Genders" class="form-control" required
+                                                oninvalid="this.setCustomValidity('Select Gender')"
+                                                oninput="this.setCustomValidity('')"></select>
+                                        <span asp-validation-for="Input.GenderId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-xs-12">
+                                        <label asp-for="Input.Password" class="sr-only"></label>
+                                        <input asp-for="Input.Password" class="form-control input-group-lg" type="password" id="Password" placeholder="Password" required                                              
+                                               oninvalid="this.setCustomValidity('Enter Password')"
+                                               oninput="this.setCustomValidity('')" />
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-xs-12">
+                                        <label asp-for="Input.ConfirmPassword" class="sr-only"></label>
+                                        <input asp-for="Input.ConfirmPassword" class="form-control input-group-lg" type="password" id="Confirm_Password" placeholder="Confirm Password" required                                               
+                                               oninvalid="this.setCustomValidity('Confirm Password')"
+                                               oninput="this.setCustomValidity('')" />
+                                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <p><a asp-page="./Login">Already have an account?</a></p>
+                                <button class="btn btn-primary" type="submit">Register Now</button>
+                            </form><!--Register Now Form Ends-->
+                        </div><!--Registration Form Contents Ends-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--preloader-->
+<div id="spinner-wrapper">
+    <div class="spinner"></div>
+</div>
+
+<!-- Scripts
+================================================= -->
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/jquery.appear.min.js"></script>
+<script src="~/js/jquery.incremental-counter.js"></script>
+<script src="~/js/jquery-3.1.1.min.js"></script>
+<script src="~/js/script.js"></script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+
+
