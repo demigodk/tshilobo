@@ -47,8 +47,8 @@ namespace tshilobo.Areas.Identity.Pages.Account
         private ListItems listItems = new ListItems();
 
         [TempData]
-        public string StatusMessage { get; set; }
-        public bool ShowMessage => !string.IsNullOrEmpty(StatusMessage);           // Used to determine if I need to show a message in Register
+        public string Message { get; set; }
+        public bool ShowMessage => !string.IsNullOrEmpty(Message);           // Used to determine if I need to show a message in Register
 
         public string ReturnUrl { get; set; }
 
@@ -56,10 +56,12 @@ namespace tshilobo.Areas.Identity.Pages.Account
         {
             [Required(ErrorMessage = "* First Name Required")]
             [DataType(DataType.Text)][Display(Name = "First Name")]
+            [StringLength(100, ErrorMessage = "The {0} Must Be At Least {2} And At Max {1} Characters Long.", MinimumLength = 2)]
             public string FirstName { get; set; }
 
             [Required(ErrorMessage = "* Last Name Required")][DataType(DataType.Text)]
             [Display(Name = "Last Name")]
+            [StringLength(100, ErrorMessage = "The {0} Must Be At Least {2} And At Max {1} Characters Long.", MinimumLength = 2)]
             public string LastName { get; set; }
 
             [Required(ErrorMessage = "* Gender Required")]
@@ -73,7 +75,7 @@ namespace tshilobo.Areas.Identity.Pages.Account
             /// to string, because int is "strongly typed" as a result I could not
             /// customize the ErrorMessage, because it was defaulting to "The value " is invalid"
             /// </summary>
-            [Required(ErrorMessage = "* Required")]
+            [Required(ErrorMessage = "* Required")]            
             public string Day { get; set; }
 
             [Required(ErrorMessage = "* Required")]
@@ -131,8 +133,8 @@ namespace tshilobo.Areas.Identity.Pages.Account
                     await CreateUserAsync(returnUrl);       // Validation for months January, March, May, July, August, October, December
                 }
                 else
-                {
-                    StatusMessage = "The selected date is invalid";
+                {                    
+                    Message = "The selected date is invalid";
                     return Page();
                 }
             }
@@ -167,7 +169,7 @@ namespace tshilobo.Areas.Identity.Pages.Account
                     $"Please Confirm Your Account By <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Clicking Here</a>.");
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                //return RedirectToPage("./Lockout");
+
                 return LocalRedirect(returnUrl);
             }
             foreach (var error in result.Errors)
@@ -175,9 +177,8 @@ namespace tshilobo.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, error.Description);
             }
 
-            // I don't even know what LocalRedirect(returnUrl); redirects to. :(
-            return RedirectToPage("./Login");
-            //return LocalRedirect(returnUrl);
+            // I don't even know what LocalRedirect(returnUrl); redirects to. :(           
+            return LocalRedirect(returnUrl);
         }
     }
 }
