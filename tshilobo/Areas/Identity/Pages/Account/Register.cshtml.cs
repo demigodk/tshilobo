@@ -44,22 +44,24 @@ namespace tshilobo.Areas.Identity.Pages.Account
         public SelectList Days { get; set; }
         public SelectList Months { get; set; }
         public SelectList Years { get; set; }
-        private ListItems listItems = new ListItems();
+        private ListItems listItems = new ListItems();      
 
         [TempData]
-        public string Message { get; set; }
-        public bool ShowMessage => !string.IsNullOrEmpty(Message);           // Used to determine if I need to show a message in Register
+        public string StatusMessage { get; set; }
+        public bool ShowMessage => !string.IsNullOrEmpty(StatusMessage);           // Used to determine if I need to show a message in Register
 
         public string ReturnUrl { get; set; }
 
         public class InputModel
         {
             [Required(ErrorMessage = "* First Name Required")]
-            [DataType(DataType.Text)][Display(Name = "First Name")]
+            [DataType(DataType.Text)]
+            [Display(Name = "First Name")]
             [StringLength(100, ErrorMessage = "The {0} Must Be At Least {2} And At Max {1} Characters Long.", MinimumLength = 2)]
             public string FirstName { get; set; }
 
-            [Required(ErrorMessage = "* Last Name Required")][DataType(DataType.Text)]
+            [Required(ErrorMessage = "* Last Name Required")]
+            [DataType(DataType.Text)]
             [Display(Name = "Last Name")]
             [StringLength(100, ErrorMessage = "The {0} Must Be At Least {2} And At Max {1} Characters Long.", MinimumLength = 2)]
             public string LastName { get; set; }
@@ -67,7 +69,8 @@ namespace tshilobo.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "* Gender Required")]
             public string GenderId { get; set; }
 
-            [Display(Name = "Birth Date")][DataType(DataType.Date)]
+            [Display(Name = "Birth Date")]
+            [DataType(DataType.Date)]
             public DateTime DateOfBirth { get; set; }
 
             /// <summary>
@@ -75,7 +78,7 @@ namespace tshilobo.Areas.Identity.Pages.Account
             /// to string, because int is "strongly typed" as a result I could not
             /// customize the ErrorMessage, because it was defaulting to "The value " is invalid"
             /// </summary>
-            [Required(ErrorMessage = "* Required")]            
+            [Required(ErrorMessage = "* Required")]
             public string Day { get; set; }
 
             [Required(ErrorMessage = "* Required")]
@@ -84,14 +87,20 @@ namespace tshilobo.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "* Required")]
             public string Year { get; set; }
 
-            [Required(ErrorMessage = "* Email Required")][EmailAddress][Display(Name = "Email")]
+            [Required(ErrorMessage = "* Email Required")]
+            [EmailAddress]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "* Password Required")][DataType(DataType.Password)][Display(Name = "Password")]
-            [StringLength(100, ErrorMessage = "The {0} Must Be At Least {2} And At Max {1} Characters Long.", MinimumLength = 6)]            
+            [Required(ErrorMessage = "* Password Required")]
+            [DataType(DataType.Password)]
+            [Display(Name = "Password")]
+            [StringLength(100, ErrorMessage = "The {0} Must Be At Least {2} And At Max {1} Characters Long.", MinimumLength = 6)]
             public string Password { get; set; }
 
-            [Required(ErrorMessage = "* Confirm Password Required")][DataType(DataType.Password)][Display(Name = "Confirm password")]
+            [Required(ErrorMessage = "* Confirm Password Required")]
+            [DataType(DataType.Password)]
+            [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The Password And Confirmation Password Do Not Match.")]
             public string ConfirmPassword { get; set; }
         }
@@ -100,85 +109,93 @@ namespace tshilobo.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
 
-            if (Genders == null || Days == null || Months == null || Years == null)            
-                Genders = listItems.Genders(); Days = listItems.Days(); Months = listItems.Months(); Years = listItems.Years();                       
+            if (Genders == null || Days == null || Months == null || Years == null)
+                Genders = listItems.Genders(); Days = listItems.Days(); Months = listItems.Months(); Years = listItems.Years();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
-            if (Genders == null || Days == null || Months == null || Years == null)            
-                Genders = listItems.Genders(); Days = listItems.Days(); Months = listItems.Months(); Years = listItems.Years();            
-           
+            if (Genders == null || Days == null || Months == null || Years == null)
+                Genders = listItems.Genders(); Days = listItems.Days(); Months = listItems.Months(); Years = listItems.Years();
+
             if (ModelState.IsValid)
-            {                                                                            
-                if (Convert.ToInt32(Input.Day) <= 30 && (Convert.ToInt32(Input.Month) == 4 || Convert.ToInt32(Input.Month) == 6
-                    || Convert.ToInt32(Input.Month) == 9 || Convert.ToInt32(Input.Month) == 11))
+            {               
+                if (DOBValidator())
                 {
-                    await CreateUserAsync(returnUrl);       // Validation for the months April, June, September & November
-                }
-                else if((Convert.ToInt32(Input.Day) <= 29) && (Convert.ToInt32(Input.Month) == 2) && (Convert.ToInt32(Input.Year) % 4 == 0))
-                { 
-                    await CreateUserAsync(returnUrl);       // Validation for Leap Year (February 29 Day Month)
-                }
-                else if((Convert.ToInt32(Input.Day) <= 28) && (Convert.ToInt32(Input.Month) == 2))
-                {
-                    await CreateUserAsync(returnUrl);       // Validation for normal February month
-                }
-                else if(Convert.ToInt32(Input.Day) <= 31 && (Convert.ToInt32(Input.Month) == 1 || Convert.ToInt32(Input.Month) == 3
-                   || Convert.ToInt32(Input.Month) == 5 || Convert.ToInt32(Input.Month) == 7 || Convert.ToInt32(Input.Month) == 8
-                   || Convert.ToInt32(Input.Month) == 10 || Convert.ToInt32(Input.Month) == 12))
-                {
-                    await CreateUserAsync(returnUrl);       // Validation for months January, March, May, July, August, October, December
+                    var user = new tshiloboUser
+                    {
+                        UserName = Input.Email,
+                        Email = Input.Email,
+                        FirstName = Input.FirstName,
+                        LastName = Input.LastName,
+                        GenderId = Convert.ToInt32(Input.GenderId),
+                        DisplayName = Input.FirstName + " " + Input.LastName,
+                        DateOfBirth = new DateTime(Convert.ToInt32(Input.Year), Convert.ToInt32(Input.Month), Convert.ToInt32(Input.Day), 0, 0, 0)
+                    };
+
+                    var result = await _userManager.CreateAsync(user, Input.Password);
+
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User Created A New Account With Password.");
+
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { userId = user.Id, code = code },
+                            protocol: Request.Scheme);
+
+                        await _emailSender.SendEmailAsync(Input.Email, "Confirm Your Email",
+                            $"Please Confirm Your Account By <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Clicking Here</a>.");
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
                 else
-                {                    
-                    Message = "The selected date is invalid";
+                {
+                    StatusMessage = "The selected date is invalid";
                     return Page();
                 }
             }
-                // If we got this far, something failed, redisplay form
-                return Page();
-        }        
 
-        // Creates the user once all validation is done successfully
-        public async Task<IActionResult> CreateUserAsync(string returnUrl = null)
-        {
-            var user = new tshiloboUser
-            {
-                UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName,
-                GenderId = Convert.ToInt32(Input.GenderId), DisplayName = Input.FirstName + " " + Input.LastName,
-                DateOfBirth = new DateTime(Convert.ToInt32(Input.Year), Convert.ToInt32(Input.Month), Convert.ToInt32(Input.Day), 0, 0, 0)
-            };
-
-            var result = await _userManager.CreateAsync(user, Input.Password);
-
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User Created A New Account With Password.");
-
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callbackUrl = Url.Page(
-                    "/Account/ConfirmEmail",
-                    pageHandler: null,
-                    values: new { userId = user.Id, code = code },
-                    protocol: Request.Scheme);
-
-                await _emailSender.SendEmailAsync(Input.Email, "Confirm Your Email",
-                    $"Please Confirm Your Account By <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Clicking Here</a>.");
-
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                return LocalRedirect(returnUrl);
-            }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-
-            // I don't even know what LocalRedirect(returnUrl); redirects to. :(           
-            return LocalRedirect(returnUrl);
+            // If we got this far, something failed, redisplay form
+            return Page();
         }
+
+        // Validates the Date Of Birth (Provided) and returns a boolean value
+        private bool DOBValidator()
+        {
+            if (Convert.ToInt32(Input.Day) <= 30 && (Convert.ToInt32(Input.Month) == 4 || Convert.ToInt32(Input.Month) == 6
+                    || Convert.ToInt32(Input.Month) == 9 || Convert.ToInt32(Input.Month) == 11))
+            {
+                return true;
+            }
+            else if ((Convert.ToInt32(Input.Day) <= 29) && (Convert.ToInt32(Input.Month) == 2) && (Convert.ToInt32(Input.Year) % 4 == 0))
+            {
+                return true;
+            }
+            else if ((Convert.ToInt32(Input.Day) <= 28) && (Convert.ToInt32(Input.Month) == 2))
+            {
+                return true;
+            }
+            else if (Convert.ToInt32(Input.Day) <= 31 && (Convert.ToInt32(Input.Month) == 1 || Convert.ToInt32(Input.Month) == 3
+               || Convert.ToInt32(Input.Month) == 5 || Convert.ToInt32(Input.Month) == 7 || Convert.ToInt32(Input.Month) == 8
+               || Convert.ToInt32(Input.Month) == 10 || Convert.ToInt32(Input.Month) == 12))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }       
     }
 }

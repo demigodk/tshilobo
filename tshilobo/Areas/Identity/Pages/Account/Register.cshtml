@@ -22,7 +22,7 @@
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/css/ionicons.min.css" rel="stylesheet" />
     <link href="~/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/css/fv.css" rel="stylesheet" />
+    @*<link href="~/css/fv.css" rel="stylesheet" />*@
 
     <!--Google Font-->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
@@ -72,70 +72,143 @@
                             <h3>Register Now !!!</h3>
                             <p class="text-muted">Be cool and join today. Meet millions</p>
                             @if (Model.ShowMessage)
-                            {                                
+                            {
                                 <div class="alert alert-danger alert-dismissible text-center" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    @Model.Message
+                                    @Model.StatusMessage
                                 </div>
                             }
                             <form asp-route-returnurl="@Model.ReturnUrl" name="registration_form" id='registration_form' class="form-inline" novalidate>
-                                @*<div asp-validation-summary="All" class="text-danger"></div>*@
+                                <div asp-validation-summary="All" class="text-danger"></div>
                                 <div class="row">
-                                    <div class="form-group col-xs-6 field">
+                                    <div class="form-group col-xs-6">
                                         <label class="sr-only">First Name</label>
-                                        <input asp-for="Input.FirstName" class="form-control input-group-lg" placeholder="First Name" required="required" type="text"
+                                        <input asp-for="Input.FirstName" class="form-control input-group-lg" placeholder="First Name" required type="text"
                                                data-validate-length-range="2,70" />
+                                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                                     </div>
-                                    <div class="form-group col-xs-6 field">
+                                    <div class="form-group col-xs-6">
                                         <label class="sr-only">Last Name</label>
-                                        <input asp-for="Input.LastName" class="form-control input-group-lg" placeholder="Last Name" required="required" type="text"
+                                        <input asp-for="Input.LastName" class="form-control input-group-lg" placeholder="Last Name" required type="text"
                                                data-validate-length-range="2,70" />
+                                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-xs-12 field">
+                                    <div class="form-group col-xs-12">
                                         <label class="sr-only">Email</label>
-                                        <input asp-for="Input.Email" class="form-control input-group-lg" placeholder="Email" required="required" type="email" />
+                                        <input asp-for="Input.Email" class="form-control input-group-lg" placeholder="Email" required type="email" />
+                                        <span asp-validation-for="Input.Email" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <p class="birth"><strong>Date of Birth</strong></p>
-                                    <div class="form-group col-sm-3 col-xs-6 field">
+                                    <div class="form-group col-sm-3 col-xs-6">
                                         <label class="sr-only">Day</label>
-                                        <select asp-for="Input.Day" asp-items="@Model.Days" class="form-control" required="required"></select>
+                                        <select asp-for="Input.Day" asp-items="@Model.Days" class="form-control" required></select>
+                                        <span asp-validation-for="Input.Day" class="text-danger"></span>
                                     </div>
-                                    <div class="form-group col-sm-3 col-xs-6 field">
+                                    <div class="form-group col-sm-3 col-xs-6">
                                         <label class="sr-only">Month</label>
-                                        <select asp-for="Input.Month" asp-items="@Model.Months" class="form-control" required="required"></select>
+                                        <select asp-for="Input.Month" asp-items="@Model.Months" class="form-control" required></select>
+                                        <span asp-validation-for="Input.Month" class="text-danger"></span>
                                     </div>
-                                    <div class="form-group col-sm-6 col-xs-12 field">
+                                    <div class="form-group col-sm-6 col-xs-12">
                                         <label class="sr-only">Year</label>
-                                        <select asp-for="Input.Year" asp-items="@Model.Years" class="form-control" required="required"></select>
+                                        <select asp-for="Input.Year" asp-items="@Model.Years" class="form-control" required></select>
+                                        <span asp-validation-for="Input.Year" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-xs-12 field">
+                                    <div class="form-group col-xs-12">
                                         <label class="sr-only">Gender</label>
-                                        <select asp-for="Input.GenderId" asp-items="@Model.Genders" class="form-control number" required="required"></select>
+                                        <select asp-for="Input.GenderId" asp-items="@Model.Genders" class="form-control number" required></select>
+                                        <span asp-validation-for="Input.GenderId" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-xs-12 field">
+                                    <div class="form-group col-xs-12">
                                         <label class="sr-only">Password</label>
-                                        <input asp-for="Input.Password" class="form-control input-group-lg" type="password" name="password"
-                                               placeholder="Password" required="required" data-validate-length-range="6,100" />
+                                        <input asp-for="Input.Password" class="form-control input-group-lg" type="password" 
+                                               placeholder="Password"  />
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-xs-12 field">
+                                    <div class="form-group col-xs-12">
                                         <label class="sr-only">Confirm Password</label>
-                                        <input asp-for="Input.ConfirmPassword" class="form-control input-group-lg" type="password" name="password2"
-                                               data-validate-linked="password" placeholder="Confirm Password" required="required" />
+                                        <input asp-for="Input.ConfirmPassword" class="form-control input-group-lg" type="password"
+                                                placeholder="Confirm Password" required />
+                                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <p><a asp-page="./Login">Already have an account?</a></p>
                                 <button class="btn btn-primary" type="submit">Register Now</button>
-                            </form><!--Register Now Form Ends-->
+                            </form>
+
+
+                            @*<form asp-route-returnurl="@Model.ReturnUrl" name="registration_form" id='registration_form' class="form-inline" novalidate>
+            <div class="row">
+                <div class="form-group col-xs-6 field">
+                    <label class="sr-only">First Name</label>
+                    <input asp-for="Input.FirstName" class="form-control input-group-lg" placeholder="First Name" required="required" type="text"
+                           data-validate-length-range="2,70" />
+                </div>
+                <div class="form-group col-xs-6 field">
+                    <label class="sr-only">Last Name</label>
+                    <input asp-for="Input.LastName" class="form-control input-group-lg" placeholder="Last Name" required="required" type="text"
+                           data-validate-length-range="2,70" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-12 field">
+                    <label class="sr-only">Email</label>
+                    <input asp-for="Input.Email" class="form-control input-group-lg" placeholder="Email" required="required" type="email" />
+                </div>
+            </div>
+            <div class="row">
+                <p class="birth"><strong>Date of Birth</strong></p>
+                <div class="form-group col-sm-3 col-xs-6 field">
+                    <label class="sr-only">Day</label>
+                    <select asp-for="Input.Day" asp-items="@Model.Days" class="form-control" required="required"></select>
+                </div>
+                <div class="form-group col-sm-3 col-xs-6 field">
+                    <label class="sr-only">Month</label>
+                    <select asp-for="Input.Month" asp-items="@Model.Months" class="form-control" required="required"></select>
+                </div>
+                <div class="form-group col-sm-6 col-xs-12 field">
+                    <label class="sr-only">Year</label>
+                    <select asp-for="Input.Year" asp-items="@Model.Years" class="form-control" required="required"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-12 field">
+                    <label class="sr-only">Gender</label>
+                    <select asp-for="Input.GenderId" asp-items="@Model.Genders" class="form-control number" required="required"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-12 field">
+                    <label class="sr-only">Password</label>
+                    <input asp-for="Input.Password" class="form-control input-group-lg" type="password" name="password"
+                           placeholder="Password" required="required" data-validate-length-range="6,100" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-12 field">
+                    <label class="sr-only">Confirm Password</label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control input-group-lg" type="password" name="password2"
+                           data-validate-linked="password" placeholder="Confirm Password" required="required" />
+                </div>
+            </div>
+            <p><a asp-page="./Login">Already have an account?</a></p>
+            <button class="btn btn-primary" type="submit">Register Now</button>
+        </form>*@
+
+
+
+
+                            <!--Register Now Form Ends-->
                         </div><!--Registration Form Contents Ends-->
                     </div>
                 </div>
@@ -156,10 +229,9 @@
 <script src="~/js/jquery.incremental-counter.js"></script>
 <script src="~/js/jquery-3.1.1.min.js"></script>
 <script src="~/js/script.js"></script>
-<script src="~/js/validator.js"></script>
-@*<script src="~/js/multifield.js"></script>*@
+@*<script src="~/js/validator.js"></script>*@
 
-<script>
+@*<script>
     // initialize a validator instance from the "FormValidator" constructor.
     // A "<form>" element is optionally passed as an argument, but is not a must
     var validator = new FormValidator({ "events": ['blur', 'input', 'change'] }, document.forms[0]);
@@ -186,7 +258,7 @@
         if (this.checked)
             $('form .alert').remove();
     }).prop('checked', false);
-</script>
+</script>*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

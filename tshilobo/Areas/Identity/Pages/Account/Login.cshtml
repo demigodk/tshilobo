@@ -23,6 +23,7 @@
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/css/ionicons.min.css" rel="stylesheet" />
     <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/css/fv.css" rel="stylesheet" />
 
     <!--Google Font-->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
@@ -70,22 +71,20 @@
                             <p class="text-muted">Log into your account</p>
 
                             <!--Login Form-->
-                            <form method="post" name="Login_form" id='Login_form'>
+                            <form method="post" name="Login_form" id='Login_form' novalidate>
                                 <div class="row">
-                                    <div class="form-group col-xs-12">
+                                    <div class="form-group col-xs-12 field">
                                         <label asp-for="Input.Email" class="sr-only"></label>
-                                        <input asp-for="Input.Email" class="form-control input-group-lg" placeholder="Your Email" required type="email"
-                                               oninvalid="this.setCustomValidity('Enter Email')"
-                                               oninput="this.setCustomValidity('')" />                                             
+                                        <input asp-for="Input.Email" class="form-control input-group-lg" placeholder="Email" required="required" type="email" />
                                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-xs-12">
+                                    <div class="form-group col-xs-12 field">
                                         <label asp-for="Input.Password" class="sr-only"></label>
-                                        <input asp-for="Input.Password" class="form-control input-group-lg" type="password" id="Password" placeholder="Password" required                                               
-                                               oninvalid="this.setCustomValidity('Enter Password')"
-                                               oninput="this.setCustomValidity('')" />
+                                        <input asp-for="Input.Password" class="form-control input-group-lg" type="password" id="Password" placeholder="Password" required="required" />
+                                        @*oninvalid="this.setCustomValidity('Enter Password')"
+                                            oninput="this.setCustomValidity('')" />*@
                                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -98,10 +97,10 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                                 <p><a asp-page="./ForgotPassword">Forgot Password?</a></p>
                                 <button class="btn btn-primary">Login Now</button>
-                            </form><!--Login Form Ends-->                            
+                            </form><!--Login Form Ends-->
                         </div>
                     </div>
                 </div>
@@ -121,6 +120,36 @@
     <script src="~/js/jquery.incremental-counter.js"></script>
     <script src="~/js/jquery-3.1.1.min.js"></script>
     <script src="~/js/script.js"></script>
+    <script src="~/js/validator.js"></script>
+
+    <script>
+        // initialize a validator instance from the "FormValidator" constructor.
+        // A "<form>" element is optionally passed as an argument, but is not a must
+        var validator = new FormValidator({ "events": ['blur', 'input', 'change'] }, document.forms[0]);
+
+        // on form "submit" event
+        document.forms[0].onsubmit = function (e) {
+            var submit = true,
+                validatorResult = validator.checkAll(this);
+
+            console.log(validatorResult);
+            return !!validatorResult.valid;
+        };
+
+
+        // on form "reset" event
+        document.forms[0].onreset = function (e) {
+            validator.reset();
+        };
+
+        // stuff related ONLY for this demo page:
+        $('.toggleValidationTooltips').change(function () {
+            validator.settings.alerts = !this.checked;
+
+            if (this.checked)
+                $('form .alert').remove();
+        }).prop('checked', false);
+    </script>
 
 </body>
 
