@@ -76,24 +76,28 @@
                                     <p class="birth"><strong>Date of Birth</strong></p>
                                     <div class="form-group col-sm-3 col-xs-6">
                                         <label asp-for="Input.Day" class="sr-only"></label>
-                                        <select asp-for="Input.Day" asp-items="@Model.Days" class="form-control"></select>
+                                        <select asp-for="Input.Day" asp-items="@Model.Day" class="form-control"></select>
                                         <span asp-validation-for="Input.Day" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-sm-3 col-xs-6">
                                         <label asp-for="Input.Month" class="sr-only"></label>
-                                        <select asp-for="Input.Month" asp-items="@Model.Months" class="form-control"></select>
+                                        <select asp-for="Input.Month" asp-items="@Model.Month" class="form-control"></select>
                                         <span asp-validation-for="Input.Month" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-sm-6 col-xs-12">
-                                        <label asp-for="Input.Year" class="sr-only"></label>
-                                        <select asp-for="Input.Year" asp-items="@Model.Years" class="form-control"></select>
-                                        <span asp-validation-for="Input.Year" class="text-danger"></span>
+                                        <label asp-for="Input.BirthYear" class="sr-only"></label>
+                                        <select asp-for="Input.BirthYear" asp-items="@Model.Year" class="form-control">
+                                            <option value="" hidden disabled selected>Year</option>
+                                        </select>
+                                        <span asp-validation-for="Input.BirthYear" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-xs-12">
                                         <label asp-for="Input.GenderId" class="sr-only"></label>
-                                        <select asp-for="Input.GenderId" asp-items="@Model.Genders" class="form-control number"></select>
+                                        <select asp-for="Input.GenderId" asp-items="@Model.Gender" class="form-control">
+                                            <option value="" hidden disabled selected>Gender</option>
+                                        </select>
                                         <span asp-validation-for="Input.GenderId" class="text-danger"></span>
                                     </div>
                                 </div>

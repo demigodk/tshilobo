@@ -6,11 +6,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using tshilobo.Areas.Identity.Data;
+using tshilobo.Areas.Identity.Services.AuthenticationRelated;
 using tshilobo.Enities;
+using tshilobo.Models;
 
 namespace tshilobo
 {
@@ -37,6 +41,15 @@ namespace tshilobo
                     options.UseSqlServer(Configuration.GetConnectionString("tshiloboContextConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Returns list items for Gender, Day, Month & Year
+            services.AddScoped<IListItem, ListItem>();
+
+            // For validating whether the user entered their email address as a password during Registration
+            //services.AddIdentity<tshiloboUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<tshiloboContext>()
+            //    .AddDefaultTokenProviders()
+            //    .AddPasswordValidator<UsernameAsPasswordValidator<tshiloboUser>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

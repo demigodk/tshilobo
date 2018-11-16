@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace tshilobo.Enities
 {
@@ -29,6 +27,7 @@ namespace tshilobo.Enities
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<UserTitle> UserTitle { get; set; }
         public virtual DbSet<UserToken> UserToken { get; set; }
+        public virtual DbSet<Year> Year { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -280,6 +279,14 @@ namespace tshilobo.Enities
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserToken)
                     .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<Year>(entity =>
+            {
+                entity.Property(e => e.Year1)
+                    .IsRequired()
+                    .HasColumnName("Year")
+                    .HasMaxLength(10);
             });
         }
     }

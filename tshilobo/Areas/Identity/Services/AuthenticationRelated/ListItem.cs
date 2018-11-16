@@ -5,26 +5,21 @@ using tshilobo.Enities;
 
 /// <summary>
 /// Author      : Bondo Kalombo
-/// Date        :   06/11/2018
+/// Date        :   16/11/2018
 /// - This class provides the select lists for Gender, Day, Month & Year
 /// </summary>
-namespace tshilobo.Areas.Identity.Data.SupportingCode.Register
+namespace tshilobo.Areas.Identity.Services.AuthenticationRelated
 {
-    public class ListItems
-    {       
-        public SelectList Genders()
-        {
-            SelectList genders = new SelectList(new List<SelectListItem>()
-            {
-               new SelectListItem(){ Text = "Gender", Selected = true, Disabled = true },
-               new SelectListItem(){ Text = "Male", Value = "1" },
-               new SelectListItem(){ Text = "Female", Value = "2" }
-            }, "Value", "Text");
+    public class ListItem : IListItem
+    {
+        private readonly ApplicationDbContext _context;
 
-            return genders;
+        public ListItem(ApplicationDbContext context)
+        {
+            _context = context;
         }
 
-        public SelectList Days()
+        public SelectList GetDayAsync()
         {
             SelectList days = new SelectList(new List<SelectListItem>()
             {
@@ -65,7 +60,8 @@ namespace tshilobo.Areas.Identity.Data.SupportingCode.Register
             return days;
         }
 
-        public SelectList Months()
+       
+        public SelectList GetMonthAsync()
         {
             SelectList months = new SelectList(new List<SelectListItem>()
             {
@@ -88,7 +84,25 @@ namespace tshilobo.Areas.Identity.Data.SupportingCode.Register
             return months;
         }
 
-        public SelectList Years()
+        public SelectList GetGenderAsync()
+        {            
+            SelectList genders = new SelectList(new List<SelectListItem>()
+            {
+               new SelectListItem(){ Text = "Gender", Selected = true, Disabled = true },
+               new SelectListItem(){ Text = "Male", Value = "1" },
+               new SelectListItem(){ Text = "Female", Value = "2" }
+            }, "Value", "Text");
+
+            return genders;
+        }
+
+        /// <summary>
+        /// The List of years, will be queried from the database itself so that if,
+        /// we need to adjust the range for age restriction purposes, we can simply
+        /// interact with the table, rather than the code in html.
+        /// </summary>
+        /// <returns></returns>
+        public SelectList GetYearAsync()
         {
             SelectList years = new SelectList(new List<SelectListItem>()
             {
@@ -132,7 +146,7 @@ namespace tshilobo.Areas.Identity.Data.SupportingCode.Register
                 new SelectListItem(){ Text = "1974", Value = "1974" },
                 new SelectListItem(){ Text = "1973", Value = "1973" },
                 new SelectListItem(){ Text = "1972", Value = "1972" },
-                new SelectListItem(){ Text = "1971", Value = "1971" },                
+                new SelectListItem(){ Text = "1971", Value = "1971" },
                 new SelectListItem(){ Text = "1970", Value = "1970" },
 
                 new SelectListItem(){ Text = "1969", Value = "1969" },
@@ -191,7 +205,7 @@ namespace tshilobo.Areas.Identity.Data.SupportingCode.Register
                 new SelectListItem(){ Text = "1920", Value = "1920" },
 
                 new SelectListItem(){ Text = "1919", Value = "1919" },
-               
+
             }, "Value", "Text");
 
             return years;

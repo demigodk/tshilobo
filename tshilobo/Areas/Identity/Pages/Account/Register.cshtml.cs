@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using tshilobo.Areas.Identity.Data;
-using tshilobo.Areas.Identity.Data.SupportingCode.Register;
+using tshilobo.Areas.Identity.Services.AuthenticationRelated;
 
 /// <summary>
 /// Author      :       Bondo Kalombo   
@@ -25,8 +25,10 @@ namespace tshilobo.Areas.Identity.Pages.Account
         private readonly UserManager<tshiloboUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        protected readonly IListItem _listItem;
 
         public RegisterModel(
+            IListItem listItem,
             UserManager<tshiloboUser> userManager,
             SignInManager<tshiloboUser> signInManager,
             ILogger<RegisterModel> logger,
@@ -36,18 +38,20 @@ namespace tshilobo.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-        }
+            _listItem = listItem;
+        }       
 
         [BindProperty]
         public InputModel Input { get; set; }
-        public SelectList Genders { get; set; }
-        public SelectList Days { get; set; }
-        public SelectList Months { get; set; }
-        public SelectList Years { get; set; }
-        private ListItems listItems = new ListItems();      
+        public SelectList Gender { get; set; }
+        public SelectList Day { get; set; }
+        public SelectList Month { get; set; }
+        public SelectList Year { get; set; }    
 
         [TempData]
         public string RegistrationStatusMessage { get; set; }
+
+        [TempData]
         public bool ShowMessage => !string.IsNullOrEmpty(RegistrationStatusMessage);           // Used to determine if I need to show a message in Register
 
         public string ReturnUrl { get; set; }
@@ -68,11 +72,11 @@ namespace tshilobo.Areas.Identity.Pages.Account
 
             [Display(Name = "Gender")]
             [Required(ErrorMessage = "Please select your gender.")]
-            public string GenderId { get; set; }
+            public string GenderId { get; set; }            
 
             [Display(Name = "Birth Date")]
             [DataType(DataType.Date)]
-            public DateTime DateOfBirth { get; set; }
+            public DateTime DateOfBirth { get; set; }           // Combines Day, Month, & Year into a date format
 
             /// <summary>
             /// Note: The fields GenderId, Day, Month, & Year were changed from int
@@ -89,7 +93,7 @@ namespace tshilobo.Areas.Identity.Pages.Account
 
             [Display(Name = "Year")]
             [Required(ErrorMessage = "Please select your year of birth.")]
-            public string Year { get; set; }
+            public string BirthYear { get; set; }
 
             [Required(ErrorMessage = "Please enter your email address.")]
             [EmailAddress(ErrorMessage = "The email address is invalid.")]
@@ -116,16 +120,16 @@ namespace tshilobo.Areas.Identity.Pages.Account
             // Setting this to null here, so that it doesn't show the same error message from OnPostAsync
             RegistrationStatusMessage = null;
 
-            if (Genders == null || Days == null || Months == null || Years == null)
-                Genders = listItems.Genders(); Days = listItems.Days(); Months = listItems.Months(); Years = listItems.Years();
+            if (Gender == null || Day == null || Month == null || Year == null)
+                Gender = _listItem.GetGenderAsync(); Day = _listItem.GetDayAsync(); Month = _listItem.GetMonthAsync(); Year = _listItem.GetYearAsync();           
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
-            if (Genders == null || Days == null || Months == null || Years == null)
-                Genders = listItems.Genders(); Days = listItems.Days(); Months = listItems.Months(); Years = listItems.Years();
+            if (Gender == null || Day == null || Month == null || Year == null)
+                Gender = _listItem.GetGenderAsync(); Day = _listItem.GetDayAsync(); Month = _listItem.GetMonthAsync(); Year = _listItem.GetYearAsync();
 
             if (ModelState.IsValid)
             {               
@@ -139,7 +143,7 @@ namespace tshilobo.Areas.Identity.Pages.Account
                         LastName = Input.LastName,
                         GenderId = Convert.ToInt32(Input.GenderId),
                         DisplayName = Input.FirstName + " " + Input.LastName,
-                        DateOfBirth = new DateTime(Convert.ToInt32(Input.Year), Convert.ToInt32(Input.Month), Convert.ToInt32(Input.Day), 0, 0, 0)
+                        DateOfBirth = new DateTime(Convert.ToInt32(Input.BirthYear), Convert.ToInt32(Input.Month), Convert.ToInt32(Input.Day), 0, 0, 0)
                     };
 
                     var result = await _userManager.CreateAsync(user, Input.Password);
@@ -185,7 +189,7 @@ namespace tshilobo.Areas.Identity.Pages.Account
             {
                 return true;
             }
-            else if ((Convert.ToInt32(Input.Day) <= 29) && (Convert.ToInt32(Input.Month) == 2) && (Convert.ToInt32(Input.Year) % 4 == 0))
+            else if ((Convert.ToInt32(Input.Day) <= 29) && (Convert.ToInt32(Input.Month) == 2) && (Convert.ToInt32(Input.BirthYear) % 4 == 0))
             {
                 return true;
             }

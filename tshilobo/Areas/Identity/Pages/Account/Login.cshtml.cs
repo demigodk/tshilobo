@@ -28,6 +28,7 @@ namespace tshilobo.Areas.Identity.Pages.Account
         public InputModel Input { get; set; }
         [TempData]
         public string LoginStatusMessage { get; set; }
+        [TempData]
         public bool ShowMessage => !string.IsNullOrEmpty(LoginStatusMessage);           // Used to determine if I need to show a message in Login
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
@@ -58,10 +59,8 @@ namespace tshilobo.Areas.Identity.Pages.Account
             // Setting this to null here, so that it doesn't display the same message from OnPostAsync
             LoginStatusMessage = null;
 
-            if (!string.IsNullOrEmpty(ErrorMessage))
-            {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
-            }
+            if (!string.IsNullOrEmpty(ErrorMessage))            
+                ModelState.AddModelError(string.Empty, ErrorMessage);            
             
             returnUrl = returnUrl ?? Url.Content("~/");
 
