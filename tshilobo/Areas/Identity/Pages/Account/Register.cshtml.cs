@@ -47,26 +47,27 @@ namespace tshilobo.Areas.Identity.Pages.Account
         private ListItems listItems = new ListItems();      
 
         [TempData]
-        public string StatusMessage { get; set; }
-        public bool ShowMessage => !string.IsNullOrEmpty(StatusMessage);           // Used to determine if I need to show a message in Register
+        public string RegistrationStatusMessage { get; set; }
+        public bool ShowMessage => !string.IsNullOrEmpty(RegistrationStatusMessage);           // Used to determine if I need to show a message in Register
 
         public string ReturnUrl { get; set; }
 
         public class InputModel
         {
-            [Required(ErrorMessage = "* First Name Required")]
+            [Required(ErrorMessage = "Please enter your name.")]
             [DataType(DataType.Text)]
-            [Display(Name = "First Name")]
-            [StringLength(100, ErrorMessage = "The {0} Must Be At Least {2} And At Max {1} Characters Long.", MinimumLength = 2)]
+            [Display(Name = "Name")]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
             public string FirstName { get; set; }
 
-            [Required(ErrorMessage = "* Last Name Required")]
+            [Required(ErrorMessage = "Please enter your surname")]
             [DataType(DataType.Text)]
-            [Display(Name = "Last Name")]
-            [StringLength(100, ErrorMessage = "The {0} Must Be At Least {2} And At Max {1} Characters Long.", MinimumLength = 2)]
+            [Display(Name = "Surname")]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
             public string LastName { get; set; }
 
-            [Required(ErrorMessage = "* Gender Required")]
+            [Display(Name = "Gender")]
+            [Required(ErrorMessage = "Please select your gender.")]
             public string GenderId { get; set; }
 
             [Display(Name = "Birth Date")]
@@ -77,37 +78,43 @@ namespace tshilobo.Areas.Identity.Pages.Account
             /// Note: The fields GenderId, Day, Month, & Year were changed from int
             /// to string, because int is "strongly typed" as a result I could not
             /// customize the ErrorMessage, because it was defaulting to "The value " is invalid"
-            /// </summary>
-            [Required(ErrorMessage = "* Required")]
+            /// </summary>            
+            [Display(Name = "Day")]
+            [Required(ErrorMessage = "Please select your day of birth.")]
             public string Day { get; set; }
 
-            [Required(ErrorMessage = "* Required")]
+            [Display(Name = "Month")]
+            [Required(ErrorMessage = "Please select your month of birth.")]
             public string Month { get; set; }
 
-            [Required(ErrorMessage = "* Required")]
+            [Display(Name = "Year")]
+            [Required(ErrorMessage = "Please select your year of birth.")]
             public string Year { get; set; }
 
-            [Required(ErrorMessage = "* Email Required")]
-            [EmailAddress]
+            [Required(ErrorMessage = "Please enter your email address.")]
+            [EmailAddress(ErrorMessage = "The email address is invalid.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "* Password Required")]
+            [Required(ErrorMessage = "Please enter a password.")]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
-            [StringLength(100, ErrorMessage = "The {0} Must Be At Least {2} And At Max {1} Characters Long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 8)]
             public string Password { get; set; }
 
-            [Required(ErrorMessage = "* Confirm Password Required")]
+            [Required(ErrorMessage = "Please enter a confirmation password.")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The Password And Confirmation Password Do Not Match.")]
+            [Compare("Password", ErrorMessage = "The Password and Confirmation Password do not match.")]
             public string ConfirmPassword { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+
+            // Setting this to null here, so that it doesn't show the same error message from OnPostAsync
+            RegistrationStatusMessage = null;
 
             if (Genders == null || Days == null || Months == null || Years == null)
                 Genders = listItems.Genders(); Days = listItems.Days(); Months = listItems.Months(); Years = listItems.Years();
@@ -161,7 +168,7 @@ namespace tshilobo.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    StatusMessage = "The selected date is invalid";
+                    RegistrationStatusMessage = "You provided an invalid date of birth.";
                     return Page();
                 }
             }

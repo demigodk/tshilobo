@@ -106,3 +106,4 @@ C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilo
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilobo.pdb
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilobo.csproj.CopyComplete
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilobo.csprojAssemblyReference.cache
+C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\Razor\Pages\Shared\_AuthenticationLayout.g.cshtml.cs

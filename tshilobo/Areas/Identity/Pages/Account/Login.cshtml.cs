@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 using tshilobo.Areas.Identity.Data;
 
 namespace tshilobo.Areas.Identity.Pages.Account
@@ -27,6 +26,9 @@ namespace tshilobo.Areas.Identity.Pages.Account
 
         [BindProperty]
         public InputModel Input { get; set; }
+        [TempData]
+        public string LoginStatusMessage { get; set; }
+        public bool ShowMessage => !string.IsNullOrEmpty(LoginStatusMessage);           // Used to determine if I need to show a message in Login
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
@@ -37,12 +39,14 @@ namespace tshilobo.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Please enter your email address.")]
+            [EmailAddress(ErrorMessage = "The email address is invalid.")]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Please enter your password.")]
             [DataType(DataType.Password)]
+            [Display(Name = "Password")]            
             public string Password { get; set; }
 
             [Display(Name = "Remember me?")]
@@ -51,11 +55,14 @@ namespace tshilobo.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            // Setting this to null here, so that it doesn't display the same message from OnPostAsync
+            LoginStatusMessage = null;
+
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
-
+            
             returnUrl = returnUrl ?? Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
@@ -90,8 +97,8 @@ namespace tshilobo.Areas.Identity.Pages.Account
                     return RedirectToPage("./Lockout");
                 }
                 else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                {                  
+                    LoginStatusMessage = "Invalid login attempt.";
                     return Page();
                 }
             }
