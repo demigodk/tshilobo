@@ -28,8 +28,11 @@ namespace tshilobo.Areas.Identity.Pages.Account
         public InputModel Input { get; set; }
         [TempData]
         public string LoginStatusMessage { get; set; }
-        [TempData]
-        public bool ShowMessage => !string.IsNullOrEmpty(LoginStatusMessage);           // Used to determine if I need to show a message in Login
+
+        //public bool ShowMessage { get; set; }
+
+        //[TempData]
+        //public bool ShowMessage => !string.IsNullOrEmpty(LoginStatusMessage);           // Used to determine if I need to show a message in Login
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 

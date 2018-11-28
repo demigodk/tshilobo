@@ -52,7 +52,6 @@ namespace tshilobo.Models
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-
         }
     }
 }

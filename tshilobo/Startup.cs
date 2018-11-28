@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using tshilobo.Areas.Identity.Data;
+using tshilobo.Areas.Identity.Services;
 using tshilobo.Areas.Identity.Services.AuthenticationRelated;
 using tshilobo.Enities;
 using tshilobo.Models;
@@ -29,7 +30,7 @@ namespace tshilobo
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -45,16 +46,13 @@ namespace tshilobo
             // Returns list items for Gender, Day, Month & Year
             services.AddScoped<IListItem, ListItem>();
 
-            // For validating whether the user entered their email address as a password during Registration
-            //services.AddIdentity<tshiloboUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<tshiloboContext>()
-            //    .AddDefaultTokenProviders()
-            //    .AddPasswordValidator<UsernameAsPasswordValidator<tshiloboUser>>();
+            services.AddDefaultIdentity<tshiloboUser>().AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<IdentityUser> userManager)
+        {            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -69,6 +67,8 @@ namespace tshilobo
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+
+            ApplicationDbInitializer.SeedUsers(userManager);
 
             app.UseMvc();
         }

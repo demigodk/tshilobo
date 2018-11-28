@@ -50,10 +50,7 @@ namespace tshilobo.Areas.Identity.Pages.Account
 
         [TempData]
         public string RegistrationStatusMessage { get; set; }
-
-        [TempData]
-        public bool ShowMessage => !string.IsNullOrEmpty(RegistrationStatusMessage);           // Used to determine if I need to show a message in Register
-
+        
         public string ReturnUrl { get; set; }
 
         public class InputModel
