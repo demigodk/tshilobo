@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using tshilobo.Areas.Identity.Services.User;
-using tshilobo.Enities;
-using tshilobo.Models;
+using tshilobo.Data.Classes.User.RoleSeed;
 
 namespace tshilobo
 {
@@ -16,33 +14,26 @@ namespace tshilobo
         {
             var host = CreateWebHostBuilder(args).Build();
 
-            //var host = BuildWebHost(args);
-
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
 
                 try
                 {
-                    var context = services.GetRequiredService<tshiloboContext>();
-                    context.Database.Migrate();
-                    UserRoleSeed.Initialize(services).Wait();
-                
+                    var serviceProvider = services.GetRequiredService<IServiceProvider>();
+                    var configuration = services.GetRequiredService<IConfiguration>();
+                    UserRoleSeed.CreateRoleAsync(serviceProvider, configuration).Wait();
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An Error Occured While Seeding The Database");
+                    logger.LogError(exception, "An error occured while creating roles");
                 }
             }
+
             host.Run();
         }
-
-        //public static IWebHost BuildWebHost(string[] args) =>
-        //    WebHost.CreateDefaultBuilder(args)
-        //    .UseStartup<Startup>()
-        //    .Build();
-
+        
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();

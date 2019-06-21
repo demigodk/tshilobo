@@ -57,7 +57,7 @@ using tshilobo;
             WriteLiteral("\r\n<div class=\"row\">\r\n\r\n    <!-- Newsfeed Common Side Bar Left\r\n    ================================================= -->\r\n    <div class=\"col-md-3 static\">\r\n        <div class=\"profile-card\">            \r\n            ");
             EndContext();
             BeginContext(288, 71, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "1e45317f787649ad9696e3d809dc1114", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "907e0ed69e8f46a88b63739bc117c6c7", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

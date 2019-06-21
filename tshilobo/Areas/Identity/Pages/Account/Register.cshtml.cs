@@ -147,6 +147,9 @@ namespace tshilobo.Areas.Identity.Pages.Account
 
                     if (result.Succeeded)
                     {
+                        // Add user to default role
+                        await _userManager.AddToRoleAsync(user, "AppUser");
+
                         _logger.LogInformation("User Created A New Account With Password.");
 
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

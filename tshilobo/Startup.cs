@@ -68,7 +68,7 @@ namespace tshilobo
             app.UseCookiePolicy();
             app.UseAuthentication();
 
-            ApplicationDbInitializer.SeedUsers(userManager);
+            //ApplicationDbInitializer.SeedUsers(userManager);
 
             app.UseMvc();
         }

@@ -9,7 +9,6 @@ namespace tshilobo.Pages.Church
     [Authorize]
     public class CreateChurchModel : PageModel
     {
-
         [BindProperty]
         public InputModel Input { get; set; }
 

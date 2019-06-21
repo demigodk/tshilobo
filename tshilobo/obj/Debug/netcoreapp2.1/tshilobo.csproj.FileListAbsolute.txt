@@ -47,6 +47,7 @@ C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\bin\Debug\netcoreapp2.1\tshilo
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\bin\Debug\netcoreapp2.1\tshilobo.pdb
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\bin\Debug\netcoreapp2.1\tshilobo.Views.dll
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\bin\Debug\netcoreapp2.1\tshilobo.Views.pdb
+C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilobo.csprojAssemblyReference.cache
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilobo.csproj.CoreCompileInputs.cache
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilobo.RazorAssemblyInfo.cache
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilobo.RazorAssemblyInfo.cs
@@ -89,6 +90,7 @@ C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\Razor\
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\_ViewImports.g.cshtml.cs
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\_ViewStart.g.cshtml.cs
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\Razor\Pages\About.g.cshtml.cs
+C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\Razor\Pages\Church\CreateChurch.g.cshtml.cs
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\Razor\Pages\Contact.g.cshtml.cs
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\Razor\Pages\Error.g.cshtml.cs
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\Razor\Pages\Index.g.cshtml.cs
@@ -106,5 +108,3 @@ C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilo
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilobo.dll
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilobo.pdb
 C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilobo.csproj.CopyComplete
-C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\tshilobo.csprojAssemblyReference.cache
-C:\Users\BONDO\Desktop\Tshilobo\tshilobo\tshilobo\obj\Debug\netcoreapp2.1\Razor\Pages\Church\CreateChurch.g.cshtml.cs
